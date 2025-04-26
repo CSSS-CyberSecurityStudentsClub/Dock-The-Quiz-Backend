@@ -9,11 +9,16 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://dock-the-quiz.vercel.app",
+];
 app.use(
   cors({
     origin: "https://dock-the-quiz.vercel.app", // Change when deploying
   })
 );
+
 app.use(express.json());
 
 // API Routes
