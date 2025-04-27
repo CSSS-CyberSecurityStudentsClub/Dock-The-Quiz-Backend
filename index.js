@@ -22,7 +22,6 @@ app.use(
 );
 
 app.use(express.json());
-app.options("*", cors());
 // API Routes
 app.use("/api", playerRoutes);
 app.get("/", (req, res) => {
