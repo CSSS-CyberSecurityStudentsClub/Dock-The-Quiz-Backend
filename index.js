@@ -15,15 +15,16 @@ const allowedOrigins = [
 ];
 app.use(
   cors({
-    origin: "https://dock-the-quiz.vercel.app", // Change when deploying
+    origin: "https://dock-the-quiz.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true,
   })
 );
 
 app.use(express.json());
-
+app.options("*", cors());
 // API Routes
 app.use("/api", playerRoutes);
-
 app.get("/", (req, res) => {
   res.send("Dock the Flag Backend Running! 🛡️");
 });
