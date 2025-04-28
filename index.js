@@ -10,7 +10,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://dock-the-quiz.vercel.app", // ✅ Your frontend
+    origin: ["https://dock-the-quiz.vercel.app", "http://localhost:5173"], // ✅ Your frontend and localhost
     methods: ["GET", "POST"],
   },
 });
@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(
   cors({
-    origin: "https://dock-the-quiz.vercel.app",
+    origin: ["https://dock-the-quiz.vercel.app", "http://localhost:5173"],
   })
 );
 app.use(express.json());
