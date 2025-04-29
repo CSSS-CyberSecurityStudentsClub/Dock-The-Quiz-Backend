@@ -61,11 +61,37 @@ export const getLeaderboard = async (req, res) => {
     const client = await pool.connect();
 
     const result = await client.query(
-      "SELECT username, name, score FROM players ORDER BY score DESC LIMIT 20"
+      `SELECT username, name, score, finish_time 
+       FROM players 
+       ORDER BY score DESC, finish_time ASC 
+       LIMIT 20`
     );
 
     client.release();
     res.json({ leaderboard: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database Error" });
+  }
+};
+
+export const updateFinishTime = async (req, res) => {
+  const { id } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: "Missing player ID" });
+  }
+
+  try {
+    const client = await pool.connect();
+
+    const result = await client.query(
+      "UPDATE players SET finish_time = NOW() WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    client.release();
+    res.json({ message: "Finish time updated!", player: result.rows[0] });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database Error" });
